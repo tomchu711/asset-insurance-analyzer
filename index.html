@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人資產與保險分析器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #report {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>個人資產與保險分析器</h1>
+        
+        <div class="section">
+            <h2>資產信息</h2>
+            <div class="form-group">
+                <label for="cash">現金存款 (TWD)</label>
+                <input type="number" id="cash" min="0">
+            </div>
+            <div class="form-group">
+                <label for="stocks">股票投資 (TWD)</label>
+                <input type="number" id="stocks" min="0">
+            </div>
+            <div class="form-group">
+                <label for="realestate">不動產價值 (TWD)</label>
+                <input type="number" id="realestate" min="0">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>保險信息</h2>
+            <div class="form-group">
+                <label for="life">人壽保險保額 (TWD)</label>
+                <input type="number" id="life" min="0">
+            </div>
+            <div class="form-group">
+                <label for="health">健康保險年繳保費 (TWD)</label>
+                <input type="number" id="health" min="0">
+            </div>
+            <div class="form-group">
+                <label for="accident">意外保險保額 (TWD)</label>
+                <input type="number" id="accident" min="0">
+            </div>
+        </div>
+
+        <button onclick="generateReport()">生成分析報告</button>
+
+        <div id="report"></div>
+    </div>
+
+    <script>
+        function generateReport() {
+            // 獲取所有輸入值
+            const cash = Number(document.getElementById('cash').value) || 0;
+            const stocks = Number(document.getElementById('stocks').value) || 0;
+            const realestate = Number(document.getElementById('realestate').value) || 0;
+            const life = Number(document.getElementById('life').value) || 0;
+            const health = Number(document.getElementById('health').value) || 0;
+            const accident = Number(document.getElementById('accident').value) || 0;
+
+            // 計算總資產
+            const totalAssets = cash + stocks + realestate;
+            
+            // 生成報告
+            const report = document.getElementById('report');
+            report.style.display = 'block';
+            
+            let reportContent = `
+                <h2>個人財務分析報告</h2>
+                <h3>資產摘要：</h3>
+                <p>總資產：${totalAssets.toLocaleString()} TWD</p>
+                <p>- 現金佔比：${((cash/totalAssets)*100).toFixed(1)}%</p>
+                <p>- 股票投資佔比：${((stocks/totalAssets)*100).toFixed(1)}%</p>
+                <p>- 不動產佔比：${((realestate/totalAssets)*100).toFixed(1)}%</p>
+                
+                <h3>保險保障：</h3>
+                <p>人壽保險保額：${life.toLocaleString()} TWD</p>
+                <p>意外保險保額：${accident.toLocaleString()} TWD</p>
+                <p>健康保險年繳保費：${health.toLocaleString()} TWD</p>
+                
+                <h3>建議：</h3>
+            `;
+
+            // 添加建議
+            let suggestions = [];
+            
+            if (cash/totalAssets > 0.5) {
+                suggestions.push("您的現金佔比較高，建議考慮適當投資以獲取更好的報酬。");
+            }
+            
+            if (life < totalAssets * 0.5) {
+                suggestions.push("您的人壽保險保額相對總資產偏低，建議評估是否需要增加保障。");
+            }
+            
+            if (health === 0) {
+                suggestions.push("您似乎沒有健康保險，建議考慮添加基本的健康保障。");
+            }
+
+            if (suggestions.length === 0) {
+                suggestions.push("您的資產配置和保險規劃大致合理。建議定期檢視並根據生活變化調整。");
+            }
+
+            reportContent += "<ul>" + suggestions.map(s => `<li>${s}</li>`).join('') + "</ul>";
+            
+            report.innerHTML = reportContent;
+        }
+    </script>
+</body>
+</html> 

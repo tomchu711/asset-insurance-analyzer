@@ -3,157 +3,559 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人資產與保險分析器</title>
+    <title>理財健康評估問卷</title>
     <style>
+        :root {
+            --primary-color: #4CAF50;
+            --primary-hover: #45a049;
+            --background-color: #f5f5f5;
+            --border-color: #ddd;
+            --text-color: #333;
+            --section-spacing: 30px;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
+
         .container {
             background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
         .section {
+            margin-bottom: var(--section-spacing);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
             margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
         }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
         }
-        input[type="number"] {
-            width: 200px;
-            padding: 8px;
-            border: 1px solid #ddd;
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
+            font-size: 16px;
         }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         button {
-            background-color: #4CAF50;
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #report {
+            font-size: 16px;
+            width: 100%;
             margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        #report {
+            margin-top: 30px;
             padding: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             display: none;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* 添加報告相關樣式 */
+        .report-section {
+            margin-bottom: 20px;
+        }
+        
+        .report-section h3 {
+            color: var(--primary-color);
+            margin-top: 20px;
+        }
+        
+        .report-section ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .report-section li {
+            margin: 5px 0;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            background-color: #2196F3 !important;
+        }
+
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>個人資產與保險分析器</h1>
+        <h1>理財健康評估問卷</h1>
         
-        <div class="section">
-            <h2>資產信息</h2>
+        <div class="section" id="section1">
+            <h2>1. 基本資料</h2>
             <div class="form-group">
-                <label for="cash">現金存款 (TWD)</label>
-                <input type="number" id="cash" min="0">
+                <label for="age">年齡範圍</label>
+                <select id="age" required>
+                    <option value="">請選擇</option>
+                    <option value="18-25">18-25歲</option>
+                    <option value="26-35">26-35歲</option>
+                    <option value="36-45">36-45歲</option>
+                    <option value="46-55">46-55歲</option>
+                    <option value="56+">56歲以上</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="stocks">股票投資 (TWD)</label>
-                <input type="number" id="stocks" min="0">
+                <label for="income-source">主要收入來源</label>
+                <select id="income-source" required>
+                    <option value="">請選擇</option>
+                    <option value="full-time">全職工作</option>
+                    <option value="freelance">自由職業</option>
+                    <option value="business">企業主</option>
+                    <option value="other">其他</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="realestate">不動產價值 (TWD)</label>
-                <input type="number" id="realestate" min="0">
+                <label for="monthly-income">月收入範圍</label>
+                <select id="monthly-income" required>
+                    <option value="">請選擇</option>
+                    <option value="10-20">$10K-$20K</option>
+                    <option value="20-40">$20K-$40K</option>
+                    <option value="40-60">$40K-$60K</option>
+                    <option value="60-80">$60K-$80K</option>
+                    <option value="80+">$80K以上</option>
+                </select>
             </div>
         </div>
 
-        <div class="section">
-            <h2>保險信息</h2>
+        <div class="section" id="section2" style="display: none;">
+            <h2>2. 現有資產與儲蓄</h2>
             <div class="form-group">
-                <label for="life">人壽保險保額 (TWD)</label>
-                <input type="number" id="life" min="0">
+                <label for="total-savings">目前的儲蓄總額</label>
+                <input type="number" id="total-savings" min="0" required placeholder="請輸入金額">
+                <div class="note">包含活期存款、定期存款等所有儲蓄</div>
             </div>
             <div class="form-group">
-                <label for="health">健康保險年繳保費 (TWD)</label>
-                <input type="number" id="health" min="0">
+                <label for="monthly-expenses">每月必要開支</label>
+                <input type="number" id="monthly-expenses" min="0" required placeholder="請輸入金額">
+                <div class="note">包括房租/房貸、生活費、交通費等固定支出</div>
             </div>
             <div class="form-group">
-                <label for="accident">意外保險保額 (TWD)</label>
-                <input type="number" id="accident" min="0">
+                <label for="emergency-fund">應急資金</label>
+                <input type="number" id="emergency-fund" min="0" required placeholder="請輸入金額">
+                <div class="note">建議維持至少6個月的必要開支金額</div>
             </div>
         </div>
 
-        <button onclick="generateReport()">生成分析報告</button>
+        <div class="section" id="section3" style="display: none;">
+            <h2>3. 投資情況</h2>
+            <div class="form-group">
+                <label>你目前有哪類投資？（可多選）</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-hk" name="investment-types" value="hk">
+                        <label for="investment-hk">港股</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-us" name="investment-types" value="us">
+                        <label for="investment-us">美股</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-cn" name="investment-types" value="cn">
+                        <label for="investment-cn">A股</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-fund" name="investment-types" value="fund">
+                        <label for="investment-fund">基金</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-bond" name="investment-types" value="bond">
+                        <label for="investment-bond">債券</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-realestate" name="investment-types" value="realestate">
+                        <label for="investment-realestate">房地產</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-crypto" name="investment-types" value="crypto">
+                        <label for="investment-crypto">加密貨幣</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-insurance" name="investment-types" value="insurance">
+                        <label for="investment-insurance">儲蓄保險</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="investment-none" name="investment-types" value="none">
+                        <label for="investment-none">沒有投資</label>
+                    </div>
+                </div>
+            </div>
 
-        <div id="report"></div>
+            <div class="form-group">
+                <label for="monthly-investment">你每月會投資多少金額？</label>
+                <select id="monthly-investment" required>
+                    <option value="">請選擇</option>
+                    <option value="0">目前沒有投資</option>
+                    <option value="<5K">少於 $5,000</option>
+                    <option value="5-10K">$5,000 - $10,000</option>
+                    <option value="10K+">$10,000 以上</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="investment-strategy">你希望你的投資策略是？</label>
+                <select id="investment-strategy" required>
+                    <option value="">請選擇</option>
+                    <option value="conservative">穩健型 - 低風險，穩定收益</option>
+                    <option value="balanced">平衡型 - 中等風險，平衡收益</option>
+                    <option value="aggressive">進取型 - 高風險，追求高報酬</option>
+                </select>
+                <div class="note">這將影響我們對您的投資建議</div>
+            </div>
+        </div>
+
+        <div class="section" id="section4" style="display: none;">
+            <h2>4. 保險覆蓋</h2>
+            <div class="form-group">
+                <label>你目前擁有哪些保險？（可多選）</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-group" name="insurance-types" value="group">
+                        <label for="insurance-group">團體醫療</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-medical" name="insurance-types" value="medical">
+                        <label for="insurance-medical">醫療</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-accident" name="insurance-types" value="accident">
+                        <label for="insurance-accident">意外</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-life" name="insurance-types" value="life">
+                        <label for="insurance-life">人壽</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-critical" name="insurance-types" value="critical">
+                        <label for="insurance-critical">危疾</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-none" name="insurance-types" value="none">
+                        <label for="insurance-none">沒有保險</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="insurance-experience">使用保險的服務體驗如何？</label>
+                <select id="insurance-experience" required>
+                    <option value="">請選擇</option>
+                    <option value="good">良好</option>
+                    <option value="normal">一般</option>
+                    <option value="bad">差勁</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="insurance-coverage">你認為自己的保險覆蓋足夠嗎？</label>
+                <select id="insurance-coverage" required>
+                    <option value="">請選擇</option>
+                    <option value="enough">足夠</option>
+                    <option value="unsure">不確定</option>
+                    <option value="not-enough">不足</option>
+                </select>
+                <div class="note">這將幫助我們為您提供更準確的保險建議</div>
+            </div>
+        </div>
+
+        <div class="section" id="section5" style="display: none;">
+            <h2>5. 財務目標</h2>
+            <div class="form-group">
+                <label>你最關心的財務問題是？（可多選）</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="concern-savings" name="financial-concerns" value="savings">
+                        <label for="concern-savings">儲蓄不足</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="concern-return" name="financial-concerns" value="return">
+                        <label for="concern-return">投資回報太低</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="concern-retirement" name="financial-concerns" value="retirement">
+                        <label for="concern-retirement">退休計劃</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="concern-risk" name="financial-concerns" value="risk">
+                        <label for="concern-risk">風險管理</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="concern-other" name="financial-concerns" value="other">
+                        <label for="concern-other">其他</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="report" style="display: none;">
+            <h2>財務健康評估報告</h2>
+            <div id="report-content">
+                <!-- 這裡將由JavaScript動態填充報告內容 -->
+            </div>
+            
+            <div class="form-group" style="margin-top: 30px;">
+                <label for="contact">留下電話，獲取詳細報告與專業建議</label>
+                <input type="tel" id="contact" placeholder="請輸入您的聯絡電話" pattern="[0-9]{8,10}" required>
+                <div class="note">我們將有專業顧問與您聯繫，為您提供更詳細的財務建議</div>
+            </div>
+            
+            <button onclick="submitContact()" class="submit-btn" style="background-color: #2196F3;">提交聯絡方式</button>
+        </div>
+
+        <button onclick="nextSection()" id="nextBtn">下一步</button>
+        <button onclick="prevSection()" id="prevBtn" style="display: none; margin-top: 10px; background-color: #666;">上一步</button>
     </div>
 
     <script>
+        let currentSection = 1;
+        const totalSections = 5;
+
+        function showSection(sectionNumber) {
+            // 隱藏所有section
+            for(let i = 1; i <= totalSections; i++) {
+                const section = document.getElementById(`section${i}`);
+                if (section) {
+                    section.style.display = 'none';
+                }
+            }
+            // 顯示當前section
+            const currentSection = document.getElementById(`section${sectionNumber}`);
+            if (currentSection) {
+                currentSection.style.display = 'block';
+            }
+            
+            // 更新按鈕顯示
+            document.getElementById('prevBtn').style.display = sectionNumber === 1 ? 'none' : 'block';
+            document.getElementById('nextBtn').textContent = sectionNumber === totalSections ? '提交' : '下一步';
+
+            // 輸出當前頁面狀態（用於調試）
+            console.log('Current section:', sectionNumber);
+        }
+
+        function nextSection() {
+            if (currentSection < totalSections) {
+                currentSection++;
+                showSection(currentSection);
+            } else {
+                // 隱藏所有section
+                for(let i = 1; i <= totalSections; i++) {
+                    const section = document.getElementById(`section${i}`);
+                    if (section) {
+                        section.style.display = 'none';
+                    }
+                }
+                // 生成報告並顯示
+                document.getElementById('report').style.display = 'block';
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('prevBtn').style.display = 'none';
+                generateReport();
+            }
+        }
+
+        function prevSection() {
+            if (currentSection > 1) {
+                currentSection--;
+                showSection(currentSection);
+            }
+        }
+
+        // 初始化顯示第一個section
+        showSection(1);
+
+        // 添加投資類型互斥邏輯
+        document.getElementById('investment-none').addEventListener('change', function(e) {
+            const investmentCheckboxes = document.querySelectorAll('input[name="investment-types"]:not([value="none"])');
+            investmentCheckboxes.forEach(checkbox => {
+                checkbox.disabled = e.target.checked;
+                if (e.target.checked) {
+                    checkbox.checked = false;
+                }
+            });
+        });
+
+        // 當選擇其他投資類型時，取消"沒有投資"的選擇
+        document.querySelectorAll('input[name="investment-types"]:not([value="none"])').forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                if (e.target.checked) {
+                    document.getElementById('investment-none').checked = false;
+                }
+            });
+        });
+
+        // 添加保險類型互斥邏輯
+        document.getElementById('insurance-none').addEventListener('change', function(e) {
+            const insuranceCheckboxes = document.querySelectorAll('input[name="insurance-types"]:not([value="none"])');
+            insuranceCheckboxes.forEach(checkbox => {
+                checkbox.disabled = e.target.checked;
+                if (e.target.checked) {
+                    checkbox.checked = false;
+                }
+            });
+        });
+
+        // 當選擇其他保險類型時，取消"沒有保險"的選擇
+        document.querySelectorAll('input[name="insurance-types"]:not([value="none"])').forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                if (e.target.checked) {
+                    document.getElementById('insurance-none').checked = false;
+                }
+            });
+        });
+
         function generateReport() {
-            // 獲取所有輸入值
-            const cash = Number(document.getElementById('cash').value) || 0;
-            const stocks = Number(document.getElementById('stocks').value) || 0;
-            const realestate = Number(document.getElementById('realestate').value) || 0;
-            const life = Number(document.getElementById('life').value) || 0;
-            const health = Number(document.getElementById('health').value) || 0;
-            const accident = Number(document.getElementById('accident').value) || 0;
-
-            // 計算總資產
-            const totalAssets = cash + stocks + realestate;
+            const reportContent = document.getElementById('report-content');
+            let report = '<div class="report-section">';
             
-            // 生成報告
-            const report = document.getElementById('report');
-            report.style.display = 'block';
+            // 基本財務健康評估
+            report += '<h3>財務健康總結</h3>';
             
-            let reportContent = `
-                <h2>個人財務分析報告</h2>
-                <h3>資產摘要：</h3>
-                <p>總資產：${totalAssets.toLocaleString()} TWD</p>
-                <p>- 現金佔比：${((cash/totalAssets)*100).toFixed(1)}%</p>
-                <p>- 股票投資佔比：${((stocks/totalAssets)*100).toFixed(1)}%</p>
-                <p>- 不動產佔比：${((realestate/totalAssets)*100).toFixed(1)}%</p>
-                
-                <h3>保險保障：</h3>
-                <p>人壽保險保額：${life.toLocaleString()} TWD</p>
-                <p>意外保險保額：${accident.toLocaleString()} TWD</p>
-                <p>健康保險年繳保費：${health.toLocaleString()} TWD</p>
-                
-                <h3>建議：</h3>
-            `;
-
-            // 添加建議
-            let suggestions = [];
+            // 檢查應急資金
+            const monthlyExpenses = Number(document.getElementById('monthly-expenses').value);
+            const emergencyFund = Number(document.getElementById('emergency-fund').value);
+            const emergencyMonths = emergencyFund / monthlyExpenses;
             
-            if (cash/totalAssets > 0.5) {
-                suggestions.push("您的現金佔比較高，建議考慮適當投資以獲取更好的報酬。");
-            }
-            
-            if (life < totalAssets * 0.5) {
-                suggestions.push("您的人壽保險保額相對總資產偏低，建議評估是否需要增加保障。");
-            }
-            
-            if (health === 0) {
-                suggestions.push("您似乎沒有健康保險，建議考慮添加基本的健康保障。");
+            if (emergencyMonths < 6) {
+                report += '<p>⚠️ 您的應急資金較低，建議提升至至少6個月的必要開支</p>';
+            } else {
+                report += '<p>✅ 您的應急資金充足，可以維持' + emergencyMonths.toFixed(1) + '個月的開支</p>';
             }
 
-            if (suggestions.length === 0) {
-                suggestions.push("您的資產配置和保險規劃大致合理。建議定期檢視並根據生活變化調整。");
+            // 投資策略建議
+            const investmentStrategy = document.getElementById('investment-strategy').value;
+            report += '<h3>投資建議</h3>';
+            switch(investmentStrategy) {
+                case 'conservative':
+                    report += '<p>根據您的風險偏好，建議配置：</p>';
+                    report += '<ul>';
+                    report += '<li>儲蓄及定期存款: 50-60%</li>';
+                    report += '<li>債券及債券基金: 30-40%</li>';
+                    report += '<li>股票及股票基金: 10-20%</li>';
+                    report += '</ul>';
+                    break;
+                case 'balanced':
+                    report += '<p>根據您的風險偏好，建議配置：</p>';
+                    report += '<ul>';
+                    report += '<li>儲蓄及定期存款: 30-40%</li>';
+                    report += '<li>債券及債券基金: 20-30%</li>';
+                    report += '<li>股票及股票基金: 30-40%</li>';
+                    report += '</ul>';
+                    break;
+                case 'aggressive':
+                    report += '<p>根據您的風險偏好，建議配置：</p>';
+                    report += '<ul>';
+                    report += '<li>儲蓄及定期存款: 10-20%</li>';
+                    report += '<li>債券及債券基金: 10-20%</li>';
+                    report += '<li>股票及股票基金: 60-70%</li>';
+                    report += '</ul>';
+                    break;
             }
 
-            reportContent += "<ul>" + suggestions.map(s => `<li>${s}</li>`).join('') + "</ul>";
+            // 保險保障評估
+            const insuranceCoverage = document.getElementById('insurance-coverage').value;
+            report += '<h3>保險保障評估</h3>';
+            if (insuranceCoverage === 'not-enough' || insuranceCoverage === 'unsure') {
+                report += '<p>⚠️ 建議您檢視並補足以下保險保障：</p>';
+                report += '<ul>';
+                report += '<li>醫療保險：建議基本保額至少 100 萬</li>';
+                report += '<li>意外保險：建議保額為年收入的 3-5 倍</li>';
+                report += '<li>人壽保險：建議保額為年收入的 5-10 倍</li>';
+                report += '</ul>';
+            } else {
+                report += '<p>✅ 您的保險保障看起來充足，建議定期檢視保單內容</p>';
+            }
+
+            report += '</div>';
+            reportContent.innerHTML = report;
+        }
+
+        function submitContact() {
+            const contact = document.getElementById('contact').value;
+            if (!contact) {
+                alert('請輸入您的聯絡電話');
+                return;
+            }
+            if (!/^[0-9]{8,10}$/.test(contact)) {
+                alert('請輸入有效的電話號碼（8-10位數字）');
+                return;
+            }
             
-            report.innerHTML = reportContent;
+            // 這裡可以添加發送聯絡方式到後端的邏輯
+            alert('已收到您的聯絡方式，我們會盡快與您聯繫！');
+            
+            // 隱藏所有section
+            for(let i = 1; i <= totalSections; i++) {
+                const section = document.getElementById(`section${i}`);
+                if (section) {
+                    section.style.display = 'none';
+                }
+            }
+            
+            // 只顯示完成信息
+            const container = document.querySelector('.container');
+            container.innerHTML = '<h2 style="text-align: center; color: var(--primary-color); margin: 20px 0;">已完成</h2>';
         }
     </script>
 </body>
